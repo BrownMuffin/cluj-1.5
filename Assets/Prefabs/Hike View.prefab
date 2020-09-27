@@ -684,26 +684,56 @@ MonoBehaviour:
   _checkDistanceDelayInSec: 1
   _distanceText: {fileID: 1415132281}
   _hikeTargets:
-  - Latitude: 52.10076
-    Longitude: 4.3993387
-  - Latitude: 52.10069
-    Longitude: 4.3978915
-  - Latitude: 52.100044
-    Longitude: 4.397017
-  - Latitude: 52.099354
-    Longitude: 4.394685
-  - Latitude: 52.099373
-    Longitude: 4.393894
-  - Latitude: 52.09912
-    Longitude: 4.393325
-  - Latitude: 52.09771
-    Longitude: 4.395436
-  - Latitude: 52.098557
-    Longitude: 4.397255
-  - Latitude: 52.099194
-    Longitude: 4.396753
-  - Latitude: 52.10039
-    Longitude: 4.399733
+  - Position:
+      Latitude: 52.10076
+      Longitude: 4.399339
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.10069
+      Longitude: 4.397892
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.10004
+      Longitude: 4.397017
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09935
+      Longitude: 4.394685
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09937
+      Longitude: 4.393894
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09912
+      Longitude: 4.393325
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09771
+      Longitude: 4.395436
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09856
+      Longitude: 4.397255
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09919
+      Longitude: 4.396753
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.10039
+      Longitude: 4.399733
+    Question: 
+    Answers: []
   _hikeTargetPrefab: {fileID: 738001225230232815, guid: 95fd4c535bf540c4fa97b21ad702d36f, type: 3}
   _hikeLinePrefab: {fileID: 2960502398237055792, guid: 3f7a70f391f84c446a22a56359193137, type: 3}
   _hikeProgressRoot: {fileID: 1888810028553822800}
