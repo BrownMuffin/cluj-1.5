@@ -20,6 +20,10 @@ public class HikeBehaviour : ViewBehaviour
     [SerializeField] private GameObject _hikeTargetPrefab;
     [SerializeField] private GameObject _hikeLinePrefab;
     [SerializeField] private RectTransform _hikeProgressRoot;
+
+    [SerializeField] private CanvasGroup _overlayCanvas;
+    [SerializeField] private HikeQuestionBehaviour _hqb;
+    [SerializeField] private HikeScoreBehaviour _hsb;
     #pragma warning restore 0649
 
     private int _hikeTargetIndex = 0;
@@ -34,7 +38,7 @@ public class HikeBehaviour : ViewBehaviour
     private float _timeSinceLastDistanceCheck = 0;
 
     private bool _hikingStarted = false;
-    private float _hikingDuration;
+    private float _hikingTime;
     private float _hikingDistance;
     private int _hikingScore;
 
@@ -51,9 +55,14 @@ public class HikeBehaviour : ViewBehaviour
         _distanceText.text = "START GPS...";
 
         _hikingStarted = false;
-        _hikingDuration = 0f;
+        _hikingTime = 0f;
         _hikingDistance = 0f;
         _hikingScore = 0;
+
+        _overlayCanvas.alpha = 0;
+
+        _hqb.OnAnswerClicked += OnScoreUpdate;
+        _hsb.OnBackClicked += OnBack;
 
         // Set progress in the correct position
         _targetWidth = ((RectTransform)_hikeTargetPrefab.transform).sizeDelta.x;
@@ -71,6 +80,8 @@ public class HikeBehaviour : ViewBehaviour
 
         Input.compass.enabled = false;
         Input.location.Stop();
+
+        _hqb.OnAnswerClicked -= OnScoreUpdate;
     }
 
     private void CreateProgressBar()
@@ -171,6 +182,10 @@ public class HikeBehaviour : ViewBehaviour
             if (_hikeTargetIndex == 0)
                 _hikingStarted = true;
 
+            // Check for question
+            if (!string.IsNullOrEmpty(_hikeTargets[_hikeTargetIndex].Question))
+                ShowQuestion(_hikeTargets[_hikeTargetIndex].Question, _hikeTargets[_hikeTargetIndex].Answers);
+
             // Update progress
             _hikeTargetObjects[_hikeTargetIndex].SetComplete();
 
@@ -198,9 +213,32 @@ public class HikeBehaviour : ViewBehaviour
                 _northTransform.rotation = Quaternion.identity;
                 _needleTransform.rotation = Quaternion.identity;
 
-                // TODO: Done
+                ShowScore();
             }
         }
+    }
+
+    private void ShowQuestion(string question, HikeAnswer[] answers)
+    {
+        _overlayCanvas.alpha = 1;
+        _hqb.SetQuestion(question, answers);
+    }
+
+    private void ShowScore()
+    {
+        _overlayCanvas.alpha = 1;
+        _hsb.SetScore(_hikingTime, _hikingDistance, _hikingScore);
+    }
+
+    private void OnScoreUpdate(int score)
+    {
+        _hikingScore += score;
+        _overlayCanvas.alpha = 0;
+    }
+
+    private void OnBack()
+    {
+        Leave();
     }
 
     private void Update()
@@ -209,30 +247,28 @@ public class HikeBehaviour : ViewBehaviour
         UpdateDistance();
 
         if (_hikingStarted)
-            _hikingDuration += Time.deltaTime;
-    }
-
-    [Serializable]
-    private struct HikeTarget
-    {
-        public GpsPosition Position;
-        public string Question;
-        public HikeAnswer[] Answers;
-
-        public HikeTarget (GpsPosition position, string question = null, HikeAnswer[] answers = null)
-        {
-            Position = position;
-            Question = question;
-            Answers = answers;
-        }
-    }
-
-    [Serializable]
-    public struct HikeAnswer
-    {
-        public string Answer;
-        public int Points;
+            _hikingTime += Time.deltaTime;
     }
 }
 
+[Serializable]
+public struct HikeTarget
+{
+    public GpsPosition Position;
+    public string Question;
+    public HikeAnswer[] Answers;
 
+    public HikeTarget(GpsPosition position, string question = null, HikeAnswer[] answers = null)
+    {
+        Position = position;
+        Question = question;
+        Answers = answers;
+    }
+}
+
+[Serializable]
+public struct HikeAnswer
+{
+    public string Answer;
+    public int Points;
+}
