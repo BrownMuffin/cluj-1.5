@@ -14,6 +14,7 @@ public class FlowBehviour : MonoBehaviour
     private void OnEnable()
     {
         Application.targetFrameRate = 30;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         _splash.OnLeaveEvent += SplashLeave;
         _login.OnLeaveEvent += LoginLeave;

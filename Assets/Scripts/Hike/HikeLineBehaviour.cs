@@ -19,7 +19,7 @@ public class HikeLineBehaviour : MonoBehaviour
 
     public void SetProgress(float currentDistance)
     {
-        var done =_distance - currentDistance;
+        var done = _distance - currentDistance;
 
         _progressImage.fillAmount = done / _distance;
     }

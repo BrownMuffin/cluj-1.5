@@ -38,18 +38,20 @@ public class HikeQuestionBehaviour : MonoBehaviour
         }
 
         _questionCanvas.alpha = 1;
+        _questionCanvas.blocksRaycasts = true;
     }
 
     public void OnSelection(int index)
     {
+        _questionCanvas.alpha = 0;
+        _questionCanvas.blocksRaycasts = false;
+
         var score = 0;
 
         if (index < _answers.Length)
             score = _answers[index].Points;
 
         OnAnswerClicked?.Invoke(score);
-
-        _questionCanvas.alpha = 0;
     }
 
 

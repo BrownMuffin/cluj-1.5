@@ -60,6 +60,7 @@ public class HikeBehaviour : ViewBehaviour
         _hikingScore = 0;
 
         _overlayCanvas.alpha = 0;
+        _overlayCanvas.blocksRaycasts = false;
 
         _hqb.OnAnswerClicked += OnScoreUpdate;
         _hsb.OnBackClicked += OnBack;
@@ -142,10 +143,10 @@ public class HikeBehaviour : ViewBehaviour
         var localPosition = new GpsPosition(Input.location.lastData.latitude, Input.location.lastData.longitude);
         var angle = GpsHelper.AngleTo(localPosition, _hikeTargets[_hikeTargetIndex].Position);
         
-        _needleTransform.LeanRotateZ(Input.compass.trueHeading + angle, _checkCompassDelayInSec);
+        _needleTransform.LeanRotateZ(Input.compass.trueHeading + angle, _checkCompassDelayInSec * 2f);
 
         // Check angle for north
-        _northTransform.LeanRotateZ(Input.compass.trueHeading, _checkCompassDelayInSec);
+        _northTransform.LeanRotateZ(Input.compass.trueHeading, _checkCompassDelayInSec * 2f);
     }
     
     private void UpdateDistance()
@@ -170,12 +171,11 @@ public class HikeBehaviour : ViewBehaviour
         var distance = GpsHelper.DistanceTo(localPosition, _hikeTargets[_hikeTargetIndex].Position);
         _distanceText.text = GpsHelper.DistanceToString(distance);
 
-        // Check progress
+        // Update progress line
         if (_hikeTargetIndex > 0)
-        {
-            _hikeLineObjects[_hikeTargetIndex - 1].SetDistance(distance);
-        }
+            _hikeLineObjects[_hikeTargetIndex - 1].SetProgress(distance);
 
+        // Check if unlocked
         if (distance < _unlockDistanceInKm)
         {
             // Start the time
@@ -221,23 +221,32 @@ public class HikeBehaviour : ViewBehaviour
     private void ShowQuestion(string question, HikeAnswer[] answers)
     {
         _overlayCanvas.alpha = 1;
+        _overlayCanvas.blocksRaycasts = true;
+
         _hqb.SetQuestion(question, answers);
     }
 
     private void ShowScore()
     {
         _overlayCanvas.alpha = 1;
+        _overlayCanvas.blocksRaycasts = true;
+
         _hsb.SetScore(_hikingTime, _hikingDistance, _hikingScore);
     }
 
     private void OnScoreUpdate(int score)
     {
-        _hikingScore += score;
         _overlayCanvas.alpha = 0;
+        _overlayCanvas.blocksRaycasts = false;
+
+        _hikingScore += score;
     }
 
     private void OnBack()
     {
+        _overlayCanvas.alpha = 0;
+        _overlayCanvas.blocksRaycasts = false;
+
         Leave();
     }
 

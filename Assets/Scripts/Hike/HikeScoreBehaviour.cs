@@ -19,6 +19,7 @@ public class HikeScoreBehaviour : MonoBehaviour
     public void SetScore(float time, float distance, int score)
     {
         _scoreCanvas.alpha = 1;
+        _scoreCanvas.blocksRaycasts = true;
 
         // Time
         var timeSpan = TimeSpan.FromSeconds(time);
@@ -38,6 +39,8 @@ public class HikeScoreBehaviour : MonoBehaviour
     public void OnBackButton()
     {
         _scoreCanvas.alpha = 0;
+        _scoreCanvas.blocksRaycasts = false;
+
         OnBackClicked?.Invoke();
     }
 }

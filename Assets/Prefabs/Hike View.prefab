@@ -906,36 +906,40 @@ MonoBehaviour:
   _needleTransform: {fileID: 1217735035}
   _northTransform: {fileID: 804626303}
   _checkCompassDelayInSec: 0.25
-  _unlockDistanceInKm: 0.01
-  _checkDistanceDelayInSec: 1
+  _unlockDistanceInKm: 0.025
+  _checkDistanceDelayInSec: 0.25
   _distanceText: {fileID: 1415132281}
   _hikeTargets:
   - Position:
       Latitude: 52.10076
       Longitude: 4.399339
-    Question: Test
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.10076
+      Longitude: 4.397817
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.100117
+      Longitude: 4.396752
+    Question: 
+    Answers: []
+  - Position:
+      Latitude: 52.09934
+      Longitude: 4.394767
+    Question: How many mushrooms do you see?
     Answers:
-    - Answer: Yes
+    - Answer: 3
+      Points: 0
+    - Answer: 4
+      Points: 0
+    - Answer: 5
+      Points: 0
+    - Answer: 6
       Points: 10
-    - Answer: No
+    - Answer: 9
       Points: 0
-    - Answer: Maybe
-      Points: 0
-  - Position:
-      Latitude: 52.10069
-      Longitude: 4.397892
-    Question: 
-    Answers: []
-  - Position:
-      Latitude: 52.10004
-      Longitude: 4.397017
-    Question: 
-    Answers: []
-  - Position:
-      Latitude: 52.09935
-      Longitude: 4.394685
-    Question: 
-    Answers: []
   - Position:
       Latitude: 52.09937
       Longitude: 4.393894
@@ -949,8 +953,18 @@ MonoBehaviour:
   - Position:
       Latitude: 52.09771
       Longitude: 4.395436
-    Question: 
-    Answers: []
+    Question: How many white striped does the crossing have?
+    Answers:
+    - Answer: 8
+      Points: 0
+    - Answer: 9
+      Points: 0
+    - Answer: 10
+      Points: 20
+    - Answer: 11
+      Points: 0
+    - Answer: 12
+      Points: 0
   - Position:
       Latitude: 52.09856
       Longitude: 4.397255
@@ -964,8 +978,14 @@ MonoBehaviour:
   - Position:
       Latitude: 52.10039
       Longitude: 4.399733
-    Question: 
-    Answers: []
+    Question: Did you enjoyed the walk?
+    Answers:
+    - Answer: Hell yeah
+      Points: 10
+    - Answer: Boring!
+      Points: -5
+    - Answer: I just started
+      Points: 20
   _hikeTargetPrefab: {fileID: 738001225230232815, guid: 95fd4c535bf540c4fa97b21ad702d36f, type: 3}
   _hikeLinePrefab: {fileID: 2960502398237055792, guid: 3f7a70f391f84c446a22a56359193137, type: 3}
   _hikeProgressRoot: {fileID: 1888810028553822800}
@@ -1218,7 +1238,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &2216700590869477391
 MonoBehaviour:
@@ -1658,7 +1678,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &5540969478364556854
 MonoBehaviour:
