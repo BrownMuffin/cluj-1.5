@@ -13,6 +13,8 @@ public class FlowBehviour : MonoBehaviour
     #pragma warning restore 0649
     private void OnEnable()
     {
+        Application.targetFrameRate = 30;
+
         _splash.OnLeaveEvent += SplashLeave;
         _login.OnLeaveEvent += LoginLeave;
         _unlock.OnLeaveEvent += UnlockLeave;

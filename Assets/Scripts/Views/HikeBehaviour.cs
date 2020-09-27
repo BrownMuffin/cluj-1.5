@@ -24,6 +24,8 @@ public class HikeBehaviour : ViewBehaviour
     private List<HikeTargetBehaviour> _hikeTargetObjects;
     private List<HikeLineBehaviour> _hikeLineObjects;
     private float _progressWidth;
+    private float _targetWidth;
+    private float _lineWidth;
 
     private bool _hiking = true;
     private float _timeSinceLastCompassCheck = 0;
@@ -39,9 +41,13 @@ public class HikeBehaviour : ViewBehaviour
         _northTransform.eulerAngles = new Vector3(0f, 0f, 0f);
         _distanceText.text = "START GPS...";
         
-        _progressWidth = ((RectTransform)_hikeProgressRoot.parent.parent).sizeDelta.x;
+        // Set progress in the correct position
+        _targetWidth = ((RectTransform)_hikeTargetPrefab.transform).sizeDelta.x;
+        _lineWidth = ((RectTransform)_hikeLinePrefab.transform).sizeDelta.x;
 
-        _hikeProgressRoot.anchoredPosition = new Vector2((_progressWidth * 0.5f) - 40f, 0f);
+        _progressWidth = ((RectTransform)_hikeProgressRoot.parent.parent).sizeDelta.x;
+        _hikeProgressRoot.anchoredPosition = new Vector2((_progressWidth - _targetWidth) * 0.5f, 0f);
+
         CreateProgressBar();
     }
 
@@ -56,6 +62,7 @@ public class HikeBehaviour : ViewBehaviour
     private void CreateProgressBar()
     {
         // Reset list
+        _hikeTargetIndex = 0;
         _hikeTargetObjects = new List<HikeTargetBehaviour>();
         _hikeLineObjects = new List<HikeLineBehaviour>();
 
@@ -63,10 +70,15 @@ public class HikeBehaviour : ViewBehaviour
         foreach (Transform child in _hikeProgressRoot)
             Destroy(child.gameObject);
 
+        // Need at least 2 targets
+        if (_hikeTargets.Count < 2)
+            return;
+
         // Create new targets and lines
         for (int i = 0; i < _hikeTargets.Count; i++)
         {
             var target = Instantiate(_hikeTargetPrefab, _hikeProgressRoot);
+            
             _hikeTargetObjects.Add(target.GetComponent<HikeTargetBehaviour>());
 
             if (i < _hikeTargets.Count - 1)
@@ -148,7 +160,7 @@ public class HikeBehaviour : ViewBehaviour
             _hikeTargetIndex++;
 
             // Update progress position
-            var progressPosition = (_progressWidth * 0.5f) - ((_hikeTargetIndex * 224) + 40);
+            var progressPosition = (_progressWidth * 0.5f) - ((_hikeTargetIndex * (_targetWidth + _lineWidth)) + (_targetWidth * 0.5f));
             LeanTween.moveX(_hikeProgressRoot, progressPosition, 0.5f).setEaseInOutSine();
             
             // Update UI next frame
